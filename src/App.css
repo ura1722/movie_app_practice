@@ -1,0 +1,20 @@
+.movie-card {
+    height: 500px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .movie-card img {
+    max-height: 80%;
+    object-fit: cover;
+  }
+  
+
+  
+  .movie-card .card-title {
+    font-size: 1rem;
+    
+    
+  }
+  
