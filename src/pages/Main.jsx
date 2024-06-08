@@ -86,7 +86,7 @@ const Main = () => {
                     />
                   </div>
                 )}
-                <button onClick={() => setPlaying(false)} className={"button close-video"}>Close</button>
+                <Button variant="outline-light" onClick={() => setPlaying(false)} className={"button close-video"}>Close</Button>
               </>
             ) : (
               <div>
