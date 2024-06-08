@@ -39,6 +39,7 @@ const Navbar = () => {
               
             </Form>
           </div>
+          <Link className="nav-link" to="/myaccount">Account</Link>
         </div>
       </nav>
     </div>

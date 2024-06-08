@@ -5,7 +5,10 @@ import Movie from '../components/Movie';
 import Button from 'react-bootstrap/Button';
 import Youtube from 'react-youtube';
 
+
 const Main = () => {
+
+
   const BACKDROP_PATH = "https://image.tmdb.org/t/p/w1280";
   const searchTerm = useSelector((state) => state.search);
   const [playing, setPlaying] = useState(false);
@@ -22,6 +25,7 @@ const Main = () => {
   useEffect(() => {
     setMovies([]);
     setPage(1);
+    
   }, [searchTerm]);
 
   useEffect(() => {
@@ -70,7 +74,7 @@ const Main = () => {
                         height: '100%',
                         playerVars: {
                           autoplay: 1,
-                          controls: 0,
+                          controls: 1,
                           cc_load_policy: 0,
                           fs: 0,
                           iv_load_policy: 0,

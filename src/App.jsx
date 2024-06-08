@@ -5,6 +5,7 @@ import './App.css';
 import Auth from './pages/Auth';
 import Main from './pages/Main';
 import Navbar from './components/Navbar'
+import Account from './pages/Account';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/myaccount" element={<Account />} />
         </Routes>
       </div>
     </Router>

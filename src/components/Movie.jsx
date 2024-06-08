@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import NoImg from '../img/No_img.png';
-//import { useFetchMovieQuery} from '../services/moviesApi';
+
 
 const Movie = ({ movie , select}) => {
   const IMG_PATH = "https://image.tmdb.org/t/p/w342";
