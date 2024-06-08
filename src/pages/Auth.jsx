@@ -30,7 +30,7 @@ const Auth = () => {
   useEffect(() => {
     if (sessionData && sessionData.session_id) {
       dispatch(setSessionId(sessionData.session_id));
-      navigate("/")
+      navigate("/movie_app_practice")
     }
   }, [sessionData]);
 

@@ -18,14 +18,14 @@ const Navbar = () => {
     <div className='mb-3'>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid d-flex justify-content-between">
-          <Link className="navbar-brand" to="/">MovieApp</Link>
+          <Link className="navbar-brand" to="/movie_app_practice">MovieApp</Link>
           
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" to="/movie_app_practice">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/auth">Login</Link>
+              <Link className="nav-link" to="/movie_app_practice/auth">Login</Link>
             </li>
           </ul>
           <div className="d-flex justify-content-center flex-grow-1">
@@ -39,7 +39,7 @@ const Navbar = () => {
               
             </Form>
           </div>
-          <Link className="nav-link" to="/myaccount">Account</Link>
+          <Link className="nav-link" to="/movie_app_practice/myaccount">Account</Link>
         </div>
       </nav>
     </div>

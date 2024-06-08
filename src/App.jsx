@@ -13,9 +13,9 @@ function App() {
       <div className='container'>
         <Navbar/>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/myaccount" element={<Account />} />
+          <Route path="/movie_app_practice" element={<Main />} />
+          <Route path="/movie_app_practice/auth" element={<Auth />} />
+          <Route path="/movie_app_practice/myaccount" element={<Account />} />
         </Routes>
       </div>
     </Router>
