@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   sessionId: localStorage.getItem('sessionId') || null,
+  accountId: localStorage.getItem('accountId') || null, 
 };
 
 const sessionSlice = createSlice({
@@ -17,9 +18,17 @@ const sessionSlice = createSlice({
       state.sessionId = null;
       localStorage.removeItem('sessionId'); 
     },
+    setAccountId(state, action) { 
+      state.accountId = action.payload;
+      localStorage.setItem('accountId', action.payload); 
+    },
+    clearAccountId(state) { 
+      state.accountId = null;
+      localStorage.removeItem('accountId'); 
+    },
   },
 });
 
-export const { setSessionId, clearSessionId } = sessionSlice.actions;
+export const { setSessionId, clearSessionId, setAccountId, clearAccountId } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

@@ -70,3 +70,24 @@
   width: 100%;
   height: 100%;
 }
+
+/* App.css */
+.app {
+  transition: all 0.5s ease;
+}
+
+.app.light {
+  background-color: white;
+  color: black;
+}
+
+.app.dark {
+  background-color: black;
+  
+}
+
+button {
+  padding: 10px 20px;
+  margin: 20px;
+  cursor: pointer;
+}

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useGetMoviesQuery, useFetchMovieQuery } from '../services/moviesApi';
+import { useGetMoviesQuery, useFetchMovieQuery} from '../services/moviesApi';
 import { useSelector } from 'react-redux';
 import Movie from '../components/Movie';
 import Button from 'react-bootstrap/Button';
 import Youtube from 'react-youtube';
-
+import countries from '../components/countries';
 
 const Main = () => {
 
-
+  const accountId = useSelector((state) => state.session.accountId);
   const BACKDROP_PATH = "https://image.tmdb.org/t/p/w1280";
   const searchTerm = useSelector((state) => state.search);
   const [playing, setPlaying] = useState(false);
@@ -22,10 +22,15 @@ const Main = () => {
   const { data, error, isLoading } = useGetMoviesQuery({ query: searchTerm, page });
   const { data: movieData } = useFetchMovieQuery(selectedMovieId, { skip: !selectedMovieId });
 
+  const localizedCountries = movie.production_countries
+    ? movie.production_countries
+        .map(country => countries[country.iso_3166_1] || country.name)
+        .join(', ')
+    : 'Невідомо';
   useEffect(() => {
     setMovies([]);
     setPage(1);
-    
+    console.log(accountId)
   }, [searchTerm]);
 
   useEffect(() => {
@@ -50,6 +55,8 @@ const Main = () => {
       }
     }
   }, [movieData]);
+
+  
 
   const loadMoreMovies = () => setPage((prevPage) => prevPage + 1);
 
@@ -92,6 +99,7 @@ const Main = () => {
               <div>
                 <Button variant="outline-light" onClick={() => setPlaying(true)}>WATCH</Button>
                 <h2>{movie.title}</h2>
+                <p className='country'>{localizedCountries}</p>
                 <p>{movie.overview ? movie.overview : null}</p>
               </div>
             )}

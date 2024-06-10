@@ -11,7 +11,7 @@ export const moviesApi = createApi({
     getMovies: builder.query({
       query: ({ query, page = 1 }) => {
         const url = query ? 'search/movie' : 'discover/movie';
-        const params = query ? { api_key: API_KEY, query, page } : { api_key: API_KEY, page };
+        const params = query ? { api_key: API_KEY, query, page, language: 'uk-UA'} : { api_key: API_KEY, page, language: 'uk-UA' };
         return { url, params };
       },
       transformResponse: (response) => ({
@@ -22,7 +22,7 @@ export const moviesApi = createApi({
     fetchMovie: builder.query({
       query: (id) => ({
         url: `movie/${id}`,
-        params: { api_key: API_KEY, append_to_response: 'videos' },
+        params: { api_key: API_KEY, language: 'uk-UA' ,append_to_response: 'videos' },
       }),
       transformResponse: (response) => response,
     }),
@@ -63,14 +63,44 @@ export const moviesApi = createApi({
       transformResponse: (response) => response,
     }),
     fetchWatchlist: builder.query({
-      query: (accountId) => {
-        const url = `account/${accountId}/watchlist/movies`;
-        const params = { api_key: API_KEY, session_id: store.getState().session.sessionId };
-        return { url, params };
+      query: () => {
+        const sessionId = store.getState().session.sessionId;
+        const accountId = store.getState().session.accountId;
+        return {
+          url: `account/${accountId}/watchlist/movies`,
+          params: { api_key: API_KEY, session_id: sessionId, language: 'uk-UA'},
+        };
       },
       transformResponse: (response) => response,
+    }),
+    addToWatchlist: builder.mutation({
+      query: ({ mediaId, mediaType, watchlist }) => {
+        const sessionId = store.getState().session.sessionId;
+        const accountId = store.getState().session.accountId;
+        return {
+          url: `account/${accountId}/watchlist`,
+          method: 'POST',
+          params: { api_key: API_KEY, session_id: sessionId },
+          body: {
+            media_type: mediaType,
+            media_id: mediaId,
+            watchlist: watchlist
+          },
+        };
+      },
+      transformResponse: (response) => response,
+    }),
+    getMovieAccountStates: builder.query({
+      query: (movieId) => {
+        const state = store.getState();
+        const sessionId = state.session.sessionId;
+        return {
+          url: `movie/${movieId}/account_states`,
+          params: { api_key: API_KEY, session_id: sessionId }
+        };
+      }
     }),
   }),
 });
 
-export const { useGetMoviesQuery, useFetchMovieQuery, useFetchTokenQuery, useLazyValidateTokenQuery, useLazyCreateSessionQuery, useFetchWatchlistQuery,  useFetchDetailsQuery} = moviesApi;
+export const { useGetMoviesQuery, useFetchMovieQuery, useFetchTokenQuery, useLazyValidateTokenQuery, useLazyCreateSessionQuery, useFetchWatchlistQuery,  useFetchDetailsQuery, useAddToWatchlistMutation, useGetMovieAccountStatesQuery} = moviesApi;
