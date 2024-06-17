@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Auth from './pages/Auth';
@@ -8,7 +8,7 @@ import Navbar from './components/Navbar'
 import Account from './pages/Account';
 import { useSelector } from 'react-redux';
 import Details from './pages/Details';
-
+import { HashRouter } from 'react-router-dom';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
   
   return (
-    <Router>
+    <HashRouter>
       <div className={`app ${theme}`}>
       <div className='container'>
       
@@ -32,7 +32,7 @@ function App() {
         </div>
       </div>
       
-    </Router>
+    </HashRouter>
   );
 }
 
