@@ -7,11 +7,20 @@ const URL_API = "https://api.themoviedb.org/3";
 export const moviesApi = createApi({
   reducerPath: 'moviesApi',
   baseQuery: fetchBaseQuery({ baseUrl: URL_API }),
+  tagTypes: ['MovieWatch','Account'], 
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: ({ query, page = 1 }) => {
+      query: ({ query, page = 1, genreIds = [] , sort_by}) => {
         const url = query ? 'search/movie' : 'discover/movie';
-        const params = query ? { api_key: API_KEY, query, page, language: 'uk-UA'} : { api_key: API_KEY, page, language: 'uk-UA' };
+        
+        const params = {
+          api_key: API_KEY,
+          sort_by,
+          page,
+          language: 'uk-UA',
+          ...(query && { query }),
+          ...(genreIds.length > 0 && { with_genres: genreIds.join(',') }),
+        };
         return { url, params };
       },
       transformResponse: (response) => ({
@@ -19,10 +28,16 @@ export const moviesApi = createApi({
         totalResults: response.total_results,
       }),
     }),
+    getGenres: builder.query({
+      query: () => ({
+        url: 'genre/movie/list',
+        params: { api_key: API_KEY, language: 'uk-UA' },
+      }),
+    }),
     fetchMovie: builder.query({
       query: (id) => ({
         url: `movie/${id}`,
-        params: { api_key: API_KEY, language: 'uk-UA' ,append_to_response: 'videos' },
+        params: { api_key: API_KEY, language: 'uk-UA' ,append_to_response: 'videos,credits' },
       }),
       transformResponse: (response) => response,
     }),
@@ -54,6 +69,7 @@ export const moviesApi = createApi({
         params: { api_key: API_KEY },
       }),
       transformResponse: (response) => response,
+      
     }),
     fetchDetails: builder.query({
       query: () => ({
@@ -61,6 +77,8 @@ export const moviesApi = createApi({
         params: { api_key: API_KEY, session_id: store.getState().session.sessionId },
       }),
       transformResponse: (response) => response,
+      invalidatesTags: ['Account'], 
+      
     }),
     fetchWatchlist: builder.query({
       query: () => {
@@ -68,6 +86,17 @@ export const moviesApi = createApi({
         const accountId = store.getState().session.accountId;
         return {
           url: `account/${accountId}/watchlist/movies`,
+          params: { api_key: API_KEY, session_id: sessionId, language: 'uk-UA'},
+        };
+      },
+      transformResponse: (response) => response,
+      providesTags: ['MovieWatch'],
+    }),
+    getRecommendations: builder.query({
+      query: (movieId) => {
+        const sessionId = store.getState().session.sessionId;
+        return {
+          url: `movie/${movieId}/recommendations`,
           params: { api_key: API_KEY, session_id: sessionId, language: 'uk-UA'},
         };
       },
@@ -89,18 +118,33 @@ export const moviesApi = createApi({
         };
       },
       transformResponse: (response) => response,
+      invalidatesTags: ['MovieWatch'], 
     }),
     getMovieAccountStates: builder.query({
       query: (movieId) => {
         const state = store.getState();
         const sessionId = state.session.sessionId;
+        if (!sessionId) {
+          return { data: null }; 
+        }
         return {
           url: `movie/${movieId}/account_states`,
           params: { api_key: API_KEY, session_id: sessionId }
         };
-      }
+      },
+      providesTags: ['MovieWatch', 'Account'],
     }),
   }),
 });
 
-export const { useGetMoviesQuery, useFetchMovieQuery, useFetchTokenQuery, useLazyValidateTokenQuery, useLazyCreateSessionQuery, useFetchWatchlistQuery,  useFetchDetailsQuery, useAddToWatchlistMutation, useGetMovieAccountStatesQuery} = moviesApi;
+export const { useGetMoviesQuery, 
+  useFetchMovieQuery, 
+  useFetchTokenQuery, 
+  useLazyValidateTokenQuery,
+   useLazyCreateSessionQuery, 
+   useFetchWatchlistQuery,  
+   useFetchDetailsQuery, 
+   useAddToWatchlistMutation, 
+   useGetMovieAccountStatesQuery, 
+   useGetGenresQuery,
+   useGetRecommendationsQuery} = moviesApi;

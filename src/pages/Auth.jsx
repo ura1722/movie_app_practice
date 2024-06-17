@@ -30,9 +30,9 @@ const Auth = () => {
   useEffect(() => {
     if (sessionData && sessionData.session_id) {
       dispatch(setSessionId(sessionData.session_id));
-      navigate("/movie_app_practice")
+      navigate("/movie_app_practice/myaccount")
     }
-  }, [sessionData]);
+  }, [sessionData, dispatch,navigate ]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -48,17 +48,17 @@ const Auth = () => {
 
   return (
     <div className="container">
-      <h2>Authorization Page</h2>
+      <h2>Авторизація</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username</label>
+          <label htmlFor="username" className="form-label">Користувач</label>
           <input type="text" className="form-control" id="username" value={credentials.username} onChange={handleInputChange} />
         </div>
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">Пароль</label>
           <input type="password" className="form-control" id="password" value={credentials.password} onChange={handleInputChange} />
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="btn btn-primary ms-0 px-5">Ввійти</button>
       </form>
       
     </div>

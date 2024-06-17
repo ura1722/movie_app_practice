@@ -7,6 +7,7 @@ import Main from './pages/Main';
 import Navbar from './components/Navbar'
 import Account from './pages/Account';
 import { useSelector } from 'react-redux';
+import Details from './pages/Details';
 
 
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/movie_app_practice" element={<Main />} />
             <Route path="/movie_app_practice/auth" element={<Auth />} />
             <Route path="/movie_app_practice/myaccount" element={<Account />} />
+            <Route path="/movie_app_practice/movies/:id" element={<Details />} />
           </Routes>
         </div>
       </div>

@@ -1,12 +1,99 @@
 .movie-card {
-  height: 500px; 
+  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.movie-card img {
-  object-fit: cover;
+
+:root {
+  --card-bg-light: #fff;
+  --card-bg-dark: #2c2c2c;
+  --text-color-light: #000;
+  --text-color-dark: #fff;
+  --border-color-light: #ddd;
+  --border-color-dark: #444;
+
+  --input-bg-light: #fff;
+  --input-bg-dark: #4e505a;
+  --input-text-light: #000;
+  --input-text-dark: #fff;
+  --input-border-light: #ccc;
+  --input-border-dark: #444;
+}
+.navbar_ {
+  
+  position: sticky;
+  top: 0;
+  
+  z-index: 1000;
+}
+
+
+.form-control.light {
+  background-color: var(--input-bg-light);
+  color: var(--input-text-light);
+  border: 1px solid var(--input-border-light);
+}
+.form-control.dark::placeholder {
+  color: var(--input-text-dark);
+}
+
+.form-control.dark {
+  background-color: var(--input-bg-dark);
+  color: var(--input-text-dark);
+  border: 1px solid var(--input-border-dark);
+}
+
+
+.form-control {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.card.movie-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card.movie-card img.card-img {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+
+.card.movie-card.light {
+  background-color: var(--card-bg-light);
+  color: var(--text-color-light);
+  border: 1px solid var(--border-color-light);
+}
+
+
+.card.movie-card.dark {
+  background-color: var(--card-bg-dark);
+  color: var(--text-color-dark);
+  border: 1px solid var(--border-color-dark);
+}
+
+.card.movie-card.dark .btn-outline-secondary {
+  color: var(--text-color-dark);
+  border-color: var(--text-color-dark);
+}
+
+.card.movie-card.dark .btn-outline-secondary:hover {
+  background-color: var(--text-color-dark);
+  color: var(--card-bg-dark);
+}
+.movie-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .selected {
@@ -26,10 +113,39 @@
 .movie-card .card-img_1 {
   height: 80px;
 }
+@media (max-width: 576px) {
+  
+  .movie-card {
+    height: 620px; 
+   
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .row .col-12{
+
+    width: 300px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  
+  .movie-card {
+    height: 564px; 
+   
+  }
+
+}
 
 @media (min-width: 768px) and (max-width: 992px) {
   .movie-card .img_box {
     height: 309px;
+  }
+  .movie-card {
+    height: 525px; 
+   
   }
 }
 
@@ -37,17 +153,33 @@
   .movie-card .img_box {
     height: 312px;
   }
+  .movie-card {
+    height: 528px; 
+   
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1400px) {
   .movie-card .img_box {
     height: 240px;
   }
+  .custom-col{
+    flex: 0 0 20%; /* 100% / 5 columns */
+  max-width: 20%;
+  }
+  .movie-card {
+    height: 500px; 
+   
+  }
 }
 
 @media (min-width: 1400px) {
   .movie-card .img_box {
     height: 285px;
+  }
+  .movie-card {
+    min-height: 500px;
+    
   }
 }
 
@@ -71,8 +203,8 @@
   height: 100%;
 }
 
-/* App.css */
 .app {
+  min-height: 100vh;
   transition: all 0.5s ease;
 }
 
@@ -83,11 +215,59 @@
 
 .app.dark {
   background-color: black;
-  
+  color: white;
 }
 
 button {
   padding: 10px 20px;
   margin: 20px;
   cursor: pointer;
+}
+
+
+.slick-prev, .slick-next {
+  z-index: 1;
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.slick-prev::before, .slick-next::before {
+  font-family: 'slick';
+  font-size: 30px;
+  line-height: 1;
+  opacity: .75;
+  color: black;
+}
+.slick-prev {
+  left: -35px;
+}
+.slick-next {
+  right: -35px;
+}
+.slick-prev:hover::before, .slick-next:hover::before {
+  opacity: 1;
+}
+.slick-slide {
+  padding: 10px;
+}
+.slick-slide img {
+  margin: 0 auto;
+  width: 80%;
+}
+.text-center {
+  position: relative;
+  top: -30px;
 }
