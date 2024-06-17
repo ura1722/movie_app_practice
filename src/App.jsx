@@ -24,7 +24,7 @@ function App() {
         
           <Navbar/>
           <Routes>
-            <Route path="/movie_app_practice" element={<Main />} />
+            <Route path="/" element={<Main />} />
             <Route path="/movie_app_practice/auth" element={<Auth />} />
             <Route path="/movie_app_practice/myaccount" element={<Account />} />
             <Route path="/movie_app_practice/movies/:id" element={<Details />} />

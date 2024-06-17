@@ -16,7 +16,7 @@ const Navbar = () => {
     event.preventDefault();
     const searchTerm = event.target.elements.search.value;
     dispatch(setSearchTerm(searchTerm));
-    navigate("/movie_app_practice");
+    navigate("/");
   };
 
   const handleToggleTheme = () => {
@@ -26,19 +26,23 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(clearSessionId()); 
     dispatch(clearAccountId())
-    navigate("/movie_app_practice");
+    navigate("/");
     window.location.reload();
   };
 
   return (
     <div className='navbar_ mb-3'>
-      <nav className={`navbar navbar-expand-lg ${theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
+      <nav className={`navbar navbar-expand-md ${theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
+      
         <div className="container-fluid d-flex justify-content-between">
           <Link className="navbar-brand" to="/movie_app_practice">MovieApp</Link>
-          
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span className="navbar-toggler-icon"></span>
+  </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/movie_app_practice">Головна</Link>
+              <Link className="nav-link" to="/">Головна</Link>
             </li>
             {sessionId ? (
               <li className="nav-item">
@@ -50,6 +54,8 @@ const Navbar = () => {
               </li>
             )}
           </ul>
+          
+          
 
           <div className="form-check form-switch ms-5 mb-0 pb-0">
             <input
@@ -82,7 +88,7 @@ const Navbar = () => {
             null
           )
           }
-          
+          </div>
         </div>
       </nav>
     </div>
