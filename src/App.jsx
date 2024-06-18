@@ -1,6 +1,7 @@
 
 import { Route, Routes } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 import './App.css';
 import Auth from './pages/Auth';
 import Main from './pages/Main';

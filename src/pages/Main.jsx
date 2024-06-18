@@ -20,39 +20,46 @@ const Main = () => {
   
 
   const [selectedGenres, setSelectedGenres] = useState([]);
+  
   const [selectedSort, setSelectedSort] = useState('popularity.desc');
+  const [selectedCountry, setSelectedCountry] = useState('UA');
 
-  const { data, error, isLoading } = useGetMoviesQuery({ query: searchTerm, page, genreIds: selectedGenres, sort_by: selectedSort});
+  const { data, error, isLoading } = useGetMoviesQuery({ query: searchTerm, page, genreIds: selectedGenres, sort_by: selectedSort,  with_origin_country: selectedCountry});
   
 
 
-  useEffect(() => {
+  const resetMovies = () => {
     setMovies([]);
     setPage(1);
-    
-  }, []);
+  };
+
+  useEffect(() => {
+    if (searchTerm !== '' || selectedGenres.length > 0 || selectedSort !== 'popularity.desc') {
+      resetMovies();
+    }
+  }, [searchTerm, selectedGenres, selectedSort]);
 
   useEffect(() => {
     if (data?.results) {
       setMovies((prevMovies) => [...prevMovies, ...data.results]);
       setTotalResults(data.totalResults);
-      
     }
   }, [data]);
-
-
 
   const handleGenreSelect = (genreId) => {
     setSelectedGenres((prevGenres) =>
       prevGenres.includes(genreId) ? prevGenres.filter(id => id !== genreId) : [...prevGenres, genreId]
     );
-    setMovies([]);
-    setPage(1);
+    resetMovies();
   };
+
   const handleSortSelect = (sortOption) => {
     setSelectedSort(sortOption);
-    setMovies([]);
-    setPage(1);
+    resetMovies();
+  };
+  const handleCountrySelect = (countryCode) => {
+    setSelectedCountry(countryCode);
+    resetMovies();
   };
 
   const loadMoreMovies = () => setPage((prevPage) => prevPage + 1);
@@ -63,7 +70,7 @@ const Main = () => {
   return (
     <div className="container">
      {searchTerm === '' ? (
-        <Filter selectedGenres={selectedGenres} onGenreSelect={handleGenreSelect} selectedSort={selectedSort} onSortSelect={handleSortSelect} />
+        <Filter selectedGenres={selectedGenres} onGenreSelect={handleGenreSelect} selectedSort={selectedSort} onSortSelect={handleSortSelect} onCountrySelect={handleCountrySelect} />
       ) : (
         <h2 className='mb-4'>Результати пошуку за запитом &quot;{searchTerm}&quot;</h2>
       )}

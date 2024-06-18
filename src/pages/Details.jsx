@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useFetchMovieQuery, useGetRecommendationsQuery , useGetMovieAccountStatesQuery, useAddToWatchlistMutation} from '../services/moviesApi';
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -17,13 +17,13 @@ import { uk } from 'date-fns/locale';
 const Details = () => {
   const { id } = useParams();
   const [playing, setPlaying] = useState(false);
-  
+  const accountId = useSelector((state) => state.session.accountId);
   const [movies, setMovies] = useState([]);
   const BACKDROP_PATH = "https://image.tmdb.org/t/p/w1280";
   const POSTER_PATH = "https://image.tmdb.org/t/p/w342";
   const [trailer, setTrailer] = useState(null);
   const [movie, setMovie] = useState({});
-
+  const navigate = useNavigate();
   const { data: movieData } = useFetchMovieQuery(id, { skip: !id });
   const { data: moviesData } = useGetRecommendationsQuery(id, { skip: !id });
   const theme = useSelector((state) => state.theme.theme);
@@ -55,7 +55,12 @@ const Details = () => {
 
   const handleWatchlistToggle = async (movieId, isWatchlisted) => {
     try {
-      await addToWatchlist({ mediaId: movieId, mediaType: 'movie', watchlist: !isWatchlisted }).unwrap();
+      if(accountId!=null){
+        await addToWatchlist({ mediaId: movieId, mediaType: 'movie', watchlist: !isWatchlisted }).unwrap();
+      }
+      else{
+        navigate('/movie_app_practice/auth')
+      }
       refetchAccountStates(); 
     } catch (error) {
       console.error('Failed to update watchlist:', error);

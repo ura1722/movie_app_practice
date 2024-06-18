@@ -10,7 +10,7 @@ export const moviesApi = createApi({
   tagTypes: ['MovieWatch','Account'], 
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: ({ query, page = 1, genreIds = [] , sort_by}) => {
+      query: ({ query, page = 1, genreIds = [] , sort_by, with_origin_country}) => {
         const url = query ? 'search/movie' : 'discover/movie';
         
         const params = {
@@ -20,6 +20,7 @@ export const moviesApi = createApi({
           language: 'uk-UA',
           ...(query && { query }),
           ...(genreIds.length > 0 && { with_genres: genreIds.join(',') }),
+          with_origin_country,
         };
         return { url, params };
       },
@@ -31,6 +32,12 @@ export const moviesApi = createApi({
     getGenres: builder.query({
       query: () => ({
         url: 'genre/movie/list',
+        params: { api_key: API_KEY, language: 'uk-UA' },
+      }),
+    }),
+    getCountries: builder.query({
+      query: () => ({
+        url: 'configuration/countries',
         params: { api_key: API_KEY, language: 'uk-UA' },
       }),
     }),
@@ -147,4 +154,5 @@ export const { useGetMoviesQuery,
    useAddToWatchlistMutation, 
    useGetMovieAccountStatesQuery, 
    useGetGenresQuery,
+   useGetCountriesQuery,
    useGetRecommendationsQuery} = moviesApi;
